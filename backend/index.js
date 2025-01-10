@@ -33,7 +33,12 @@ const db = mysql.createPool({
 
 // JWT Authentication Middleware
 const auth = (req, res, next) => {
-  const token = req.header("Authorization")?.split(" ")[1];
+  const authHeader = req.header("Authorization");
+  if (!authHeader) {
+    return res.status(401).json({ message: "No token, authorization denied." });
+  }
+
+  const token = authHeader.split(" ")[1];
   if (!token) {
     return res.status(401).json({ message: "No token, authorization denied." });
   }
@@ -60,6 +65,11 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Routes
+
+// Root Route
+app.get("/", (req, res) => {
+  res.send("Welcome to the Family Photo Vault Backend!");
+});
 
 // Test Endpoint
 app.get("/api/test", (req, res) => {
@@ -159,6 +169,20 @@ app.post("/api/upload", auth, upload.single("photo"), async (req, res) => {
   }
 });
 
+// Storage Cost Analysis Endpoint (Dummy Implementation)
+app.get("/api/storage-cost", auth, async (req, res) => {
+  try {
+    // Dummy data for storage cost
+    const sizeInGB = 2.5; // Replace with actual calculation
+    const estimatedCost = (sizeInGB * 0.026).toFixed(2); // Example calculation
+
+    res.json({ sizeInGB: sizeInGB.toFixed(2), estimatedCost: `$${estimatedCost}` });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Failed to fetch storage cost.", error });
+  }
+});
+
 // Serve Frontend in Production (Optional)
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../client/build")));
@@ -167,6 +191,6 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-
+// Start Server
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`Backend server running on port ${PORT}`));
