@@ -5,9 +5,7 @@ import Home from './components/Home';
 import Signup from './components/Auth/Signup';
 import Login from './components/Auth/Login';
 import ProtectedRoute from './components/ProtectedRoute';
-
-// For a protected example, we can reuse Home or create new
-// but let's keep it simple
+import Dashboard from './components/Dashboard'; // Import here
 
 function App() {
   return (
@@ -15,20 +13,17 @@ function App() {
       <Navbar />
       <div className="container">
         <Routes>
-          {/* Public Routes */}
+          {/* Public */}
           <Route path="/" element={<Home />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
 
-          {/* Protected Routes */}
-          <Route
-            path="/protected"
+          {/* Protected */}
+          <Route 
+            path="/dashboard"
             element={
               <ProtectedRoute>
-                <div className="page">
-                  <h2>Protected Page</h2>
-                  <p>If you see this, you have a valid token!</p>
-                </div>
+                <Dashboard />
               </ProtectedRoute>
             }
           />
