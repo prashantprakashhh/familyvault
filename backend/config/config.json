@@ -1,0 +1,26 @@
+{
+  "development": {
+    "username": "prashantsingh",
+    "password": "admin",
+    "database": "family_vault",
+    "port": 5432,
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "prashantsingh",
+    "password": "admin",
+    "database": "family_vault_test",
+    "port": 5432,
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "prashantsingh",
+    "password": "admin",
+    "database": "family_vault_prod",
+    "port": 5432,
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
